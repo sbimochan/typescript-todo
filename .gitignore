@@ -7,6 +7,9 @@
 # Dist
 dist/
 
+# Built
+built/
+
 # Logs
 logs
 *.log
