@@ -1,10 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import config from '../config/config';
+import { Request, Response } from 'express';
+import * as homeService from '../services/homeService';
 
-export const index = (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) =>
-  response.json({
-    appName: 'typescript starter'
-  });
+export function index(req: Request, res: Response): void {
+  const result = homeService.getAppInfo();
+  res.json(result);
+}
