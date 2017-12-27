@@ -31,7 +31,9 @@
     "typescript": "^2.6.2"
   },
   "scripts": {
+    "start": "nodemon",
     "watch": "tsc --watch",
-    "start": "nodemon"
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,js}'; exit 0",
+    "lint:fix": "tslint --fix -c tslint.json 'src/**/*.ts'; exit 0"
   }
 }

@@ -12,8 +12,8 @@ app.use(cors());
 // API Routes
 app.use('/api', routes);
 
-app.listen(config.app.port, () =>
-  console.log(`Listening on port ${config.app.baseUrl}`)
-);
+app.listen(config.app.port, () => {
+  console.log(`Listening on port ${config.app.baseUrl}`);
+});
 
 export default app;
