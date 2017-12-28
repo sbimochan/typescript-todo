@@ -1,8 +1,8 @@
 {
-  "name": "typescript-express-api-starter",
+  "name": "typescript-api",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:SafalPandey/typescript-express-api-starter.git",
+  "repository": "git@github.com:SafalPandey/typescript-api.git",
   "authors": [
     "Sagar Chamling <sgr.raee@gmail.com>",
     "Safal Pandey <safal.pandey.sp@gmail.com>"
