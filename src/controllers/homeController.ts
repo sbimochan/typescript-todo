@@ -1,4 +1,3 @@
-import config from '../config/config';
 import { Request, Response } from 'express';
 import * as HTTPStatus from 'http-status-codes';
 import * as homeService from '../services/homeService';

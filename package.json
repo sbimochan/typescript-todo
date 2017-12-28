@@ -43,9 +43,9 @@
     "watch": "tsc --watch",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,js}'; exit 0",
     "lint:fix": "tslint --fix -c tslint.json 'src/**/*.ts'; exit 0",
-    "test": "NODE_ENV=test mocha --recursive test/**/*.test.ts",
-    "test:unit": "NODE_ENV=test mocha --recursive test/unit/**/*.test.ts",
-    "test:api": "NODE_ENV=test mocha --recursive test/api/**/*.test.ts",
-    "test:watch": "NODE_ENV=test mocha --watch --recursive test/**/*.test.ts"
+    "test": "NODE_ENV=test mocha --recursive test/**/*.test.ts --exit",
+    "test:unit": "NODE_ENV=test mocha --recursive test/unit/**/*.test.ts --exit",
+    "test:api": "NODE_ENV=test mocha --recursive test/api/**/*.test.ts --exit",
+    "test:watch": "NODE_ENV=test mocha --watch --recursive test/**/*.test.ts --exit"
   }
 }
