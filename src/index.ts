@@ -1,5 +1,6 @@
 import * as cors from 'cors';
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 
 import config from './config/config';
 
@@ -10,6 +11,7 @@ import * as errorHandler from './middlewares/errorHandler';
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
 
 // API Routes
 app.use('/api', routes);

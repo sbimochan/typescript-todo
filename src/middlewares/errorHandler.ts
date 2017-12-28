@@ -1,5 +1,6 @@
 import * as HttpStatus from 'http-status-codes';
 import { Request, Response, NextFunction } from 'express';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 
 /**
  * Error response middleware for 404 not found. This middleware function should be at the very bottom of the stack.
@@ -20,7 +21,6 @@ export function notFoundError(req: Request, res: Response, next: NextFunction) {
 /**
  * Generic error response middleware for validation and internal server errors.
  *
- *
  * @param {*} err
  * @param {Request} req
  * @param {Response} res
@@ -31,7 +31,8 @@ export function genericErrorHandler(
   req: Request,
   res: Response,
   next: NextFunction
-) {
+): void {
+  console.log('Error ', err);
   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
     error: {
       code: HttpStatus.INTERNAL_SERVER_ERROR,
