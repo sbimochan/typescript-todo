@@ -47,5 +47,8 @@
     "test:unit": "NODE_ENV=test mocha --recursive test/unit/**/*.test.ts --exit",
     "test:api": "NODE_ENV=test mocha --recursive test/api/**/*.test.ts --exit",
     "test:watch": "NODE_ENV=test mocha --watch --recursive test/**/*.test.ts --exit"
+  },  "engines": {
+    "node": ">= 6.9.0",
+    "npm": ">= 3.10.8"
   }
 }
