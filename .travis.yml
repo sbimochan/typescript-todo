@@ -1,10 +1,7 @@
 language: node_js
 node_js:
-  - "node"
-  - "7"
-  - "6"
+  - "stable"
 before_script:
   - cp .env.example .env
-  - npm install
 script:
   - npm run test
