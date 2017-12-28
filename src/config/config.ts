@@ -15,13 +15,23 @@ export default {
     baseUrl: process.env.APP_URL || 'http://127.0.0.1:8000/api'
   },
   database: {
-    client: 'pg',
+    client: process.env.DB_CLIENT || 'mssql',
     connection: {
       charset: 'utf8',
       user: process.env.DB_USER,
+      port: process.env.DB_PORT,
       database: process.env.DB_NAME,
       password: process.env.DB_PASSWORD,
       host: process.env.DB_HOST || '127.0.0.1'
+    },
+    migrations: {
+      tableName: 'migrations',
+      directory: './migrations',
+      stub: './stubs/migration.stub'
+    },
+    seeds: {
+      directory: './seeds',
+      stub: './stubs/seed.stub'
     }
   },
   pagination: {
