@@ -11,8 +11,6 @@
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "bookshelf": "^0.12.0",
-    "bookshelf-camelcase": "^2.0.1",
     "boom": "^7.1.1",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
@@ -25,7 +23,6 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.16.8",
-    "@types/bookshelf": "^0.9.7",
     "@types/boom": "^4.3.8",
     "@types/chai": "^4.0.10",
     "@types/cors": "^2.8.3",
