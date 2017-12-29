@@ -18,7 +18,7 @@ app.use(errorHandler.genericErrorHandler);
 app.use(errorHandler.notFoundError);
 
 app.listen(config.app.port, () => {
-  console.log(`Listening on port ${config.app.baseUrl}`);
+  console.log(`Listening on http://${config.app.host}:${config.app.port}/api`);
 });
 
 export default app;

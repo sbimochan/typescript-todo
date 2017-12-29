@@ -9,9 +9,10 @@ export default {
   app: {
     name: name || 'typescript-express-api-starter',
     version: version || '1.0.0',
-    port: process.env.APP_PORT || '8000',
-    host: process.env.APP_HOST || '127.0.0.1',
-    baseUrl: process.env.APP_URL || 'http://127.0.0.1:8000/api'
+    port: isTestEnvironment
+      ? process.env.TEST_APP_PORT
+      : process.env.APP_PORT || '8000',
+    host: process.env.APP_HOST || '127.0.0.1'
   },
   database: {
     client: isTestEnvironment
