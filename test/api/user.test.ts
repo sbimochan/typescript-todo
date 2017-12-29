@@ -3,14 +3,21 @@ import { expect } from 'chai';
 import * as request from 'supertest';
 import lang from '../../src/utils/lang';
 import * as HTTPStatus from 'http-status-codes';
-
-let userId;
-const name = 'John Doe';
-const email = 'john.doe@example.com';
+import RegisterBody from '../../src/domain/RegisterBody';
 
 describe('User API is working', () => {
+  let userId: number;
+  let name: string;
+  let email: string;
+  let user: RegisterBody;
+
+  before(() => {
+    name = 'John Doe';
+    email = 'john.doe@example.com';
+    user = { name, email };
+  });
+
   it('should create new user', done => {
-    const user = { name, email };
     request(app)
       .post('/api/register')
       .send(user)
@@ -33,7 +40,6 @@ describe('User API is working', () => {
   });
 
   it('should fail when trying to create user with same email', done => {
-    const user = { name, email };
     request(app)
       .post('/api/register')
       .send(user)
@@ -69,7 +75,6 @@ describe('User API is working', () => {
   });
 
   it('should fail when user not found', done => {
-    const user = { name, email };
     request(app)
       .get(`/api/users/0`)
       .send(user)
