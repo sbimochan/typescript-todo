@@ -1,6 +1,7 @@
 import * as Boom from 'boom';
 import knex from '../config/db';
 import lang from '../utils/lang';
+import UpdateBody from '../domain/UpdateBody';
 import RegisterBody from '../domain/RegisterBody';
 
 /**
@@ -60,5 +61,19 @@ export function findByEmail(email: string) {
 export function fetchAll(): Promise<{}> {
   return knex('users')
     .select()
+    .then((data: {}) => ({ data }));
+}
+
+/**
+ * Update specific user
+ *
+ * @param  {UpdateBody} body
+ * @returns Promise
+ */
+export function update(body: UpdateBody): Promise<{}> {
+  return knex('users')
+    .where('id', body.id)
+    .update({ name: body.name })
+    .returning('*')
     .then((data: {}) => ({ data }));
 }

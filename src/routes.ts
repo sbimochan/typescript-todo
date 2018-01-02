@@ -12,4 +12,6 @@ router.post('/register', uniqueEmail, authController.register);
 router.get('/users', userController.index);
 router.get('/users/:id', userController.show);
 
+router.put('/users/:id', userController.update);
+
 export default router;

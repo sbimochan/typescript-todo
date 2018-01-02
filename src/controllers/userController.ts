@@ -32,3 +32,19 @@ export function show(req: Request, res: Response, next: NextFunction): void {
     .then((result = {}) => res.status(HTTPStatus.OK).json(result))
     .catch((error: {}) => next(error));
 }
+
+/**
+ * Update specific user information
+ *
+ * @param  {Request} req
+ * @param  {Response} res
+ * @param  {NextFunction} next
+ * @returns void
+ */
+export function update(req: Request, res: Response, next: NextFunction): void {
+  req.body.id = req.params.id;
+  userService
+    .update(req.body)
+    .then((result: {}) => res.status(HTTPStatus.OK).json(result))
+    .catch((error: {}) => next(error));
+}
