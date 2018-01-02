@@ -16,3 +16,17 @@ export function uniqueEmail(req: Request, res: Response, next: NextFunction) {
     .then(() => next(Boom.badRequest(lang.emailTaken)))
     .catch((err: {}) => next());
 }
+
+/**
+ * Validate user existence.
+ *
+ * @param  {Request} req
+ * @param  {Response} res
+ * @param  {NextFunction} next
+ */
+export function userExists(req: Request, res: Response, next: NextFunction) {
+  return userService
+    .findById(req.params.id)
+    .then(() => next())
+    .catch(() => next(Boom.notFound(lang.userNotFound)));
+}

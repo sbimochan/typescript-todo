@@ -75,5 +75,24 @@ export function update(body: UpdateBody): Promise<{}> {
     .where('id', body.id)
     .update({ name: body.name })
     .returning('*')
-    .then((data: {}) => ({ data }));
+    .then((data: number[]) => ({ data: data[0] }));
+}
+
+/**
+ * Remove specific user
+ *
+ * @param  {number} id
+ * @returns Promise
+ */
+export function removeUserById(id: number): Promise<{}> {
+  console.log(id);
+  return knex('users')
+    .where('id', id)
+    .delete()
+    .then((user: {}) => ({
+      message: 'User deleted successfully',
+      data: {
+        id: user
+      }
+    }));
 }

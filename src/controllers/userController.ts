@@ -48,3 +48,18 @@ export function update(req: Request, res: Response, next: NextFunction): void {
     .then((result: {}) => res.status(HTTPStatus.OK).json(result))
     .catch((error: {}) => next(error));
 }
+
+/**
+ * Delete specific user information
+ *
+ * @param  {Request} req
+ * @param  {Response} res
+ * @param  {NextFunction} next
+ * @returns void
+ */
+export function remove(req: Request, res: Response, next: NextFunction): void {
+  userService
+    .removeUserById(req.params.id)
+    .then((result: {}) => res.status(HTTPStatus.OK).json(result))
+    .catch((error: {}) => next(error));
+}
