@@ -9,9 +9,12 @@ export default {
   app: {
     name: name || 'typescript-express-api-starter',
     version: version || '1.0.0',
-    port: isTestEnvironment
-      ? process.env.TEST_APP_PORT
-      : process.env.APP_PORT || '8000',
+    port: parseInt(
+      isTestEnvironment
+        ? process.env.TEST_APP_PORT || '8888'
+        : process.env.APP_PORT || '8000',
+      10
+    ),
     host: process.env.APP_HOST || '127.0.0.1'
   },
   database: {

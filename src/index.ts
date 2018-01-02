@@ -17,7 +17,7 @@ app.use('/api', routes);
 app.use(errorHandler.genericErrorHandler);
 app.use(errorHandler.notFoundError);
 
-app.listen(config.app.port, () => {
+app.listen(config.app.port, config.app.host, () => {
   console.log(`Listening on http://${config.app.host}:${config.app.port}/api`);
 });
 
