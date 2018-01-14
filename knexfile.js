@@ -1,8 +1,6 @@
 require('babel-register');
 require('dotenv').config();
 
-const isTestEnvironment = process.env.NODE_ENV === 'test';
-
 module.exports = {
   development: {
     client: process.env.DB_CLIENT || 'mssql',
@@ -31,6 +29,7 @@ module.exports = {
       user: process.env.TEST_DB_USER,
       port: process.env.TEST_DB_PORT,
       database: process.env.TEST_DB_NAME,
+      password: process.env.TEST_DB_PASSWORD,
       host: process.env.DB_HOST || '127.0.0.1'
     },
     migrations: {
