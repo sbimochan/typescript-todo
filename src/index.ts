@@ -1,13 +1,16 @@
 import * as cors from 'cors';
-import routes from './routes';
 import * as express from 'express';
-import config from './config/config';
 import * as bodyParser from 'body-parser';
+import * as responseTime from 'response-time';
+
+import routes from './routes';
+import config from './config/config';
 import * as errorHandler from './middlewares/errorHandler';
 
 const app = express();
 
 app.use(cors());
+app.use(responseTime());
 app.use(bodyParser.json());
 
 // API Routes
