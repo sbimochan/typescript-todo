@@ -1,12 +1,13 @@
 import * as Boom from 'boom';
 import Todo from '../models/todo';
 import Tag from '../models/tag';
+import * as Bluebird from 'bluebird';
 /**
  * Get all lists.
  *
  * @return {Promise}
  */
-export function getAllTodos() {
+export function getAllTodos(): Bluebird<{}> {
   return Todo.fetchAll();
 }
 
@@ -16,14 +17,14 @@ export function getAllTodos() {
  * @param  {Number|String}  id
  * @return {Promise}
  */
-export function getTodo(userId:number) {
+export function getTodo(userId: number): Bluebird<{}> {
   return new Todo({ userId })
     .fetch({
       withRelated: ['user', 'tags']
     })
     .then(todo => {
       if (!todo) {
-        throw  Boom.notFound('todo not found');
+        throw Boom.notFound('todo not found');
       }
       return todo;
     });
@@ -32,7 +33,7 @@ export function getTodo(userId:number) {
 /** *get individual todos
  *
  */
-export function getUserTodos(userId:number, paginate:{}) {
+export function getUserTodos(userId: number, paginate: {}): Bluebird<{}> {
   return new Todo()
     .where({ user_id: userId })
     .fetchPage({
@@ -40,9 +41,9 @@ export function getUserTodos(userId:number, paginate:{}) {
       pageSize: 5,
       withRelated: ['user', 'tags']
     })
-    .then(todo => {
+    .then((todo: {}) => {
       if (!todo) {
-        throw new Boom.notFound('todo not found');
+        throw Boom.notFound('todo not found');
       } else {
         return (todo = { todo: todo, pagination: todo.pagination });
       }
@@ -51,7 +52,7 @@ export function getUserTodos(userId:number, paginate:{}) {
 /**
  * search todo
  */
-export function searchTodo(search:string, userId:number) {
+export function searchTodo(search: string, userId: number): Bluebird<{}> {
   return new Todo()
     .query(qb => {
       qb
@@ -62,9 +63,9 @@ export function searchTodo(search:string, userId:number) {
       pageSize: 5,
       withRelated: ['user', 'tags']
     })
-    .then(todo => {
+    .then((todo: {}) => {
       if (!todo) {
-        throw new Boom.notFound('todo not found');
+        throw Boom.notFound('todo not found');
       } else {
         return (todo = { todo: todo, pagination: todo.pagination });
       }
@@ -76,13 +77,13 @@ export function searchTodo(search:string, userId:number) {
  * @param  {Object}  todoObj
  * @return {Promise}
  */
-export function createTodo(todoObj:{}) {
+export function createTodo(todoObj: {}): Bluebird<{}> {
   return new Todo({ description: todoObj.description }).save().then(todoObj => {
     return todoObj.refresh();
   });
 }
 
-export function createUserTodos(userId:number, body:{}) {
+export function createUserTodos(userId: number, body: {}): Bluebird<{}> {
   // user id
   return new Todo({ description: body.description, userId: userId })
     .save()
@@ -93,8 +94,7 @@ export function createUserTodos(userId:number, body:{}) {
     });
 }
 
-
-export function createTags(body:{}) {
+export function createTags(body: {}): Bluebird<{}> {
   return new Tag({ tagName: body.tags }).save().then(body => body.refresh());
 }
 /**
@@ -104,7 +104,7 @@ export function createTags(body:{}) {
  * @param  {Object}         vehicle
  * @return {Promise}
  */
-export function updateTodo(id:number, todoObj:{}) {
+export function updateTodo(id: number, todoObj: {}): Bluebird<{}> {
   return new Todo({ id })
     .save({ description: todoObj.description })
     .then(todoObj => todoObj.refresh());
@@ -116,6 +116,6 @@ export function updateTodo(id:number, todoObj:{}) {
  * @param  {Number|String}  id
  * @return {Promise}
  */
-export function deleteTodo(id:number) {
+export function deleteTodo(id: number): Bluebird<{}> {
   return new Todo({ id }).fetch().then(todoObj => todoObj.destroy());
 }

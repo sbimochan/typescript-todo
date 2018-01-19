@@ -8,6 +8,9 @@ import * as userService from '../services/userService';
 import * as todoService from '../services/todoService';
 import { findUser, userValidator } from '../validators/userValidator';
 
+interface IRequest extends Request {
+  token?: string;
+}
 /**
  * GET /api/users
  */
@@ -57,11 +60,11 @@ export function indexTodo(
 //:id/todo/:todoId
 //add middleware userService.ensureToken
 export function showTodo(
-  req: Request,
+  req: IRequest,
   res: Response,
   next: NextFunction
 ): void {
-  let verified = jwtGenerator.verifyAccessToken(req.token);
+  let verified = jwtGenerator.verifyAccessToken(String(req.token));
   if (!verified.userId) {
     res.sendStatus(403);
   } else {
@@ -73,7 +76,7 @@ export function showTodo(
           err => next(err) // .then(data => res.json({ data: data, pagination: data.pagination }))
         );
     } else {
-      throw new Boom.forbidden('No no not allowed');
+      throw Boom.forbidden('No no not allowed');
     }
   }
 }
@@ -89,15 +92,16 @@ export function createUser(
   userService
     .createUser(req.body)
     .then((data: {}) => res.status(HttpStatus.CREATED).json({ data }))
-    .catch((err: any) => next(err));
+    .catch((err: any) => res.json('Duplicate email id'));
 }
 //:id/todo ensureToken
+
 export function createTodo(
-  req: Request,
+  req: IRequest,
   res: Response,
   next: NextFunction
 ): void {
-  let verifiedId = jwtGenerator.verifyAccessToken(req.token);
+  let verifiedId = jwtGenerator.verifyAccessToken(String(req.token));
   if (!verifiedId.userId) {
     res.sendStatus(403);
   } else {
@@ -107,7 +111,7 @@ export function createTodo(
         .then((data: {}) => res.status(HttpStatus.CREATED).json(data))
         .catch((err: any) => next(err));
     } else {
-      throw new Boom.forbidden('No no not allowed');
+      throw Boom.forbidden('No no not allowed');
     }
   }
 }
@@ -165,8 +169,6 @@ export function removeTodo(
 ): void {
   todoService
     .deleteTodo(req.params.todoId)
-    .then((data:{}) => res.status(HttpStatus.NO_CONTENT).json({ data }))
-    .catch((err:any) => next(err));
+    .then((data: {}) => res.status(HttpStatus.NO_CONTENT).json({ data }))
+    .catch((err: any) => next(err));
 }
-
-

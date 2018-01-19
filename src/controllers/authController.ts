@@ -22,8 +22,8 @@ export function login(req: Request, res: Response, next: NextFunction): void {
     .catch((err: {}) => next(err));
 }
 
-export function logout(req: Request, res: Response, next: NextFunction): void {
-  const verified = jwtGenerator.verifyRefreshToken(req.token);
+export function logout(req: IRequest, res: Response, next: NextFunction): void {
+  const verified = jwtGenerator.verifyRefreshToken(String(req.token));
   const id = verified.userId;
   if (!id) {
     res.sendStatus(403);
@@ -32,13 +32,15 @@ export function logout(req: Request, res: Response, next: NextFunction): void {
     res.sendStatus(200);
   }
 }
-
+interface IRequest extends Request {
+  token?: string
+}
 export function refreshToken(
-  req: Request,
+  req: IRequest,
   res: Response,
   next: NextFunction
 ): void {
-  const verified = jwtGenerator.verifyRefreshToken(req.token);
+  const verified = jwtGenerator.verifyRefreshToken(String(req.token));
   const id = verified.userId;
   if (!id) {
     res.sendStatus(403);

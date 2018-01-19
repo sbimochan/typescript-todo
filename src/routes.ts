@@ -31,8 +31,8 @@ router.put('/users/:id/todo/:todoId',findTodo,userController.changeTodo);
 router.delete('/users/:id/todo/:todoId',findTodo,userController.removeTodo);
 
 router.post('/login', authController.login);
-router.get('/refresh', authController.refreshToken);
-router.get('/logout', authController.logout);
+router.get('/refresh',userService.ensureToken, authController.refreshToken);
+router.get('/logout',userService.ensureToken, authController.logout);
 router.get('/tags', tagsController.index);
 router.get('/tags/:id', tagsController.show);
 

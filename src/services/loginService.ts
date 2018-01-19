@@ -6,7 +6,11 @@ import * as jwtGenerator from '../utils/jwt';
 /**
  * login
  */
-export function findUser(user:{}) {
+interface Iuser {
+  username:string,
+  password:string
+}
+export function findUser(user:Iuser) {
   return new User({ username: user.username, password: user.password })
     .fetch()
     .then(user => {
@@ -22,7 +26,11 @@ export function findUser(user:{}) {
       return token;
     });
 }
-export function saveSession(data:{}) {
+interface Idata {
+  userId: number,
+  refreshToken:string
+}
+export function saveSession(data:Idata) {
   return new Session({ user_id: data.userId, refresh_token: data.refreshToken })
     .save()
     .then(data => data.refresh())
@@ -30,14 +38,10 @@ export function saveSession(data:{}) {
 
   // return allToken;
 }
-// function updateRefreshToken(err,data){   if(err.code === '23505'){     let id
-// = data.userId;     return new Session({user_id:id})
-// .save({refresh_token:data.refreshToken})
-// .then(session=>session.refresh());   } }
-export function deleteSession(data:{}) {
-  //  console.log('user id',data);
 
-  return new Session({ user_id: data.userId })
+
+export function deleteSession(userId: number) {
+  return new Session({ user_id: userId })
     .fetch()
     .then(session => session.destroy());
 }
