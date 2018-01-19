@@ -1,98 +1,84 @@
 import * as Boom from 'boom';
-import knex from '../config/db';
-import lang from '../utils/lang';
-import UpdateBody from '../domain/UpdateBody';
-import RegisterBody from '../domain/RegisterBody';
+import User from '../models/user';
+import { Router, Request, Response, NextFunction } from 'express';
 
 /**
- * Create user
+ * Get all users.
  *
- * @param  {RegisterBody} body
- * @returns Promise
+ * @return {Promise}
  */
-export function create(body: RegisterBody): Promise<{}> {
-  return knex('users')
-    .insert({ name: body.name, email: body.email })
-    .returning('*')
-    .then((data: number[]) => ({ data: data[0] }));
+export function getAllUsers() {
+  return User.fetchAll();
 }
 
 /**
- * Fetch user by id
+ * Get a user.
  *
- * @param  {number} id
+ * @param  {Number|String}  id
+ * @return {Promise}
  */
-export function findById(id: number) {
-  return knex('users')
-    .where('id', '=', id)
-    .first()
-    .then((user: {}) => {
-      if (!user) {
-        throw Boom.notFound(lang.userNotFound);
-      }
+export function getUser(id: number) {
+  return new User({ id }).fetch().then((user: {}) => {
+    if (!user) {
+      throw new Boom.notFound('User not found');
+    }
 
-      return { data: user };
-    });
+    return user;
+  });
 }
 
 /**
- * Fetch user by email
+ * Create new user.
  *
- * @param  {string} email
+ * @param  {Object}  user
+ * @return {Promise}
  */
-export function findByEmail(email: string) {
-  return knex('users')
-    .where('email', '=', email)
-    .first()
-    .then((user: {}) => {
-      if (!user) {
-        throw Boom.notFound(lang.userNotFound);
-      }
-
-      return { data: user };
-    });
+export function createUser(user: {}) {
+  return new User({
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    username: user.username,
+    password: user.password
+  })
+    .save()
+    .then(user => user.refresh());
 }
 
 /**
- * Fetch all user
+ * Update a user.
  *
- * @returns Promise
+ * @param  {Number|String}  id
+ * @param  {Object}         user
+ * @return {Promise}
  */
-export function fetchAll(): Promise<{}> {
-  return knex('users')
-    .select()
-    .then((data: {}) => ({ data }));
+export function updateUser(id: number, user: {}) {
+  return new User({ id })
+    .save({ name: user.name })
+    .then(user => user.refresh());
+}
+/**
+ * jwt ensure
+ */
+export function ensureToken(req: Request, res: Response, next: NextFunction) {
+  console.log('header', req.headers['authorization']);
+  const bearerHeader = req.headers['authorization'];
+  if (typeof bearerHeader !== 'undefined') {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    req.token = bearerToken;
+    next();
+  } else {
+    res.sendStatus(403);
+  }
 }
 
 /**
- * Update specific user
+ * Delete a user.
  *
- * @param  {UpdateBody} body
- * @returns Promise
+ * @param  {Number|String}  id
+ * @return {Promise}
  */
-export function update(body: UpdateBody): Promise<{}> {
-  return knex('users')
-    .where('id', body.id)
-    .update({ name: body.name })
-    .returning('*')
-    .then((data: number[]) => ({ data: data[0] }));
-}
-
-/**
- * Remove specific user
- *
- * @param  {number} id
- * @returns Promise
- */
-export function removeUserById(id: number): Promise<{}> {
-  console.log(id);
-  return knex('users')
-    .where('id', id)
-    .delete()
-    .then((user: {}) => ({
-      message: 'User deleted successfully',
-      data: {
-        id: user
-      }
-    }));
+export function deleteUser(id:number) {
+  return new User({ id }).fetch().then(user => user.destroy());
 }
